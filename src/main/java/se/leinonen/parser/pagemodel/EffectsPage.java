@@ -2,12 +2,15 @@ package se.leinonen.parser.pagemodel;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.jsoup.nodes.Document;
 
 import se.leinonen.parser.model.DrugEffects;
 import se.leinonen.parser.ErowidUrl;
 
 public class EffectsPage extends Page {
+
+    private Logger logger = Logger.getLogger(EffectsPage.class);
 
     private List<String> positiveEffects;
     private List<String> neutralEffects;
@@ -36,20 +39,20 @@ public class EffectsPage extends Page {
         setNegativeEffects(parseList(divPath + "negative ul.effects-item li"));
         setNeutralEffects(parseList(divPath + "neutral ul.effects-item li"));
 
-        System.out.println(getDescription());
-        System.out.println(getDurationChartUrl());
+        logger.info(getDescription());
+        logger.info(getDurationChartUrl());
 
-        System.out.println("--POSITIVE EFFECTS--");
+        logger.info("--POSITIVE EFFECTS--");
         for (String s : getPositiveEffects()) {
-            System.out.println(s);
+            logger.info(s);
         }
-        System.out.println("--NEGATIVE EFFECTS--");
+        logger.info("--NEGATIVE EFFECTS--");
         for (String s : getNegativeEffects()) {
-            System.out.println(s);
+            logger.info(s);
         }
-        System.out.println("--NEUTRAL EFFECTS--");
+        logger.info("--NEUTRAL EFFECTS--");
         for (String s : getNeutralEffects()) {
-            System.out.println(s);
+            logger.info(s);
         }
         return this;
     }

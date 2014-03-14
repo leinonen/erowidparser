@@ -2,10 +2,11 @@ package se.leinonen.app;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Query;
+import org.apache.log4j.Logger;
+import se.leinonen.parser.ErowidParser;
 import se.leinonen.parser.ErowidUrl;
 import se.leinonen.parser.model.Drug;
 import se.leinonen.parser.model.DrugBasics;
-import se.leinonen.parser.ErowidParser;
 import se.leinonen.parser.pagemodel.BasicsPage;
 import se.leinonen.parser.pagemodel.DrugPage;
 import se.leinonen.parser.pagemodel.EffectsPage;
@@ -15,10 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
+    private Logger logger = Logger.getLogger(Main.class);
 	public static void main(String[] args) {
 		Main app = new Main();
-		app.downloadDrugs();
-		//app.test();
+		//app.downloadDrugs();
+		app.test();
 	}
 
 	private final ErowidParser parser = new ErowidParser();
@@ -33,12 +35,12 @@ public class Main {
 				Drug drug = processDrugPage(drugPage);
 
 				for (ErowidUrl url : drugPage.getLinksOfType(ErowidUrl.Type.BASICS)) {
-					System.out.println("-> Downloading Basic info for " + drug.getName() + ".");
+					logger.info("-> Downloading Basic info for " + drug.getName() + ".");
 					processBasics((BasicsPage) parser.getPage(url), drug);
 				}
 
 				for (ErowidUrl url : drugPage.getLinksOfType(ErowidUrl.Type.EFFECTS)) {
-					System.out.println("-> Downloading Effects info for " + drug.getName() + ".");
+					logger.info("-> Downloading Effects info for " + drug.getName() + ".");
 					processEffects((EffectsPage) parser.getPage(url), drug);
 				}
 			}
@@ -54,8 +56,7 @@ public class Main {
 		for (ErowidUrl currentUrl : rootPage.getLinks()) {
 			ErowidUrl yes = new ErowidUrl(currentUrl.getOriginalUrl(), erowidUrl);
 			if (yes.getType() == ErowidUrl.Type.DRUG) {
-				// TODO: Varför måste jag skapa en ny url? igen..
-				// Annars blir simplename fel...
+				// TODO: Varför måste jag skapa en ny url? igen.. Annars blir simplename fel...
 				goodUrls.add(new ErowidUrl(yes.getUrl()));
 			}
 		}
@@ -87,7 +88,7 @@ public class Main {
 		if (drugBasics != null && drug != null) {
 			drug.setBasics(drugBasics);
 			Ebean.update(drug);
-			System.out.println("-> Updated " + drug.getName() + " with Basic info.");
+			logger.info("-> Updated " + drug.getName() + " with Basic info.");
 		}
 	}
 
@@ -95,13 +96,14 @@ public class Main {
 		Drug drug = page.toDrug();
 		if (drug != null) {
 			Ebean.save(drug);
-			System.out.println("-> Saved " + drug.getName() + " to database.");
+			logger.info("-> Saved " + drug.getName() + " to database.");
 		}
 		return drug;
 	}
 
 	private void processEffects(EffectsPage page, Drug drug) {
-		System.out.println("-> Updated " + drug.getName() + " with Effects info.");
+		//logger.info("-> Updated " + drug.getName() + " with Effects info.");
+		logger.info("-> TODO: Implement Update " + drug.getName() + " with Effects info.");
 		// DrugEffects drugEffects = page.toDrugEffects();
 		// drug.setEffects(drugEffects);
 	}

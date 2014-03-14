@@ -1,5 +1,6 @@
 package se.leinonen.parser;
 
+import org.apache.log4j.Logger;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -25,6 +26,8 @@ public class ErowidParser {
 
     private final int timeout = 3000;
 
+    private Logger logger = Logger.getLogger(ErowidParser.class);
+
     /**
      * Retrieve a Page-representation of a specific Erowid page based on the type of the parameter url.
      *
@@ -32,31 +35,31 @@ public class ErowidParser {
      * @return Page-model for the specific page, or null if the document could not be downloaded.
      */
     public Page getPage(final ErowidUrl url) {
-        System.out.print("GET " + url);
+        logger.info(String.format("GET %s", url));
 
         Page result = null;
         if (ErowidUrl.Type.DRUG.equals(url.getType())) {
 
-            System.out.println(" -> DrugPage");
+            logger.info(" -> DrugPage");
             result = new DrugPage(url, fetchDocument(url));
 
         } else if (ErowidUrl.Type.BASICS.equals(url.getType())) {
 
-            System.out.println(" -> BasicsPage");
+            logger.info(" -> BasicsPage");
             result = new BasicsPage(url, fetchDocument(url));
 
         } else if (ErowidUrl.Type.EFFECTS.equals(url.getType())) {
 
-            System.out.println(" -> EffectsPage");
+            logger.info(" -> EffectsPage");
             result = new EffectsPage(url, fetchDocument(url));
 
         } else {
-            System.out.println(" -> Page");
+            logger.info(" -> Page");
             result = new Page(url, fetchDocument(url));
         }
 
         if (null == result.getDocument()) {
-            System.out.println(" -> null");
+            logger.info(" -> ERROR GETTING DOCUMENT");
             return null;
         }
         return result.process();
@@ -73,11 +76,11 @@ public class ErowidParser {
         try {
             doc = Jsoup.connect(url).userAgent("Mozilla").timeout(timeout).get();
         } catch (HttpStatusException e) {
-            // System.out.println(e.getMessage() + ": " + url);
+            logger.warn("HTTP Error");
         } catch (SocketTimeoutException e) {
-            System.out.println("TIMEOUT");
+            logger.warn("Timed out");
         } catch (IOException e) {
-            System.out.println("IO ERROR");
+            logger.error("IO Error");
         }
         return doc;
     }

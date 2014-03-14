@@ -116,7 +116,7 @@ public class Page {
 		}
 		for (String link : linkset) {
 			ErowidUrl url = new ErowidUrl(link, getUrl());
-			if (url.isValid()) {
+			if (url.isValidErowidUrl()) {
 				addLink(url);
 			}
 		}

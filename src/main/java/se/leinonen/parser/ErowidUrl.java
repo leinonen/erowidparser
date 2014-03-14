@@ -34,6 +34,9 @@ public class ErowidUrl implements Comparable<ErowidUrl> {
     private Type type;
     private ErowidUrl parent;
 
+    private ErowidUrl(){
+    }
+
     /**
      * Default constructor using an url as a parameter.
      *
@@ -100,7 +103,7 @@ public class ErowidUrl implements Comparable<ErowidUrl> {
         return isHttp(getUrl());
     }
 
-    public boolean isValid() {
+    public boolean isValidErowidUrl() {
         boolean urlValid = isHttp(url) && !invalidUrl(url) && url.endsWith(".shtml");
         boolean originalValid = originalUrl.startsWith("/plants") || originalUrl.startsWith("/chemicals");
         return urlValid || originalValid;
@@ -178,6 +181,9 @@ public class ErowidUrl implements Comparable<ErowidUrl> {
         return url;
     }
 
+    /**
+     * Try to identify the type of the url..
+     */
     private void identifyType() {
         if (this.url.contains("plants") || this.url.contains("chemicals")) {
             this.type = Type.DRUG;
@@ -208,6 +214,12 @@ public class ErowidUrl implements Comparable<ErowidUrl> {
         return url.startsWith("http://");
     }
 
+    /**
+     * Processes the url, trying to figure out what kind of url it is
+     * and also extracting "important" parts of it so we can use it later.
+     * @param theUrl the url to be processed.
+     * @param parent specify a parent url if theUrl is incomplete.
+     */
     private void processUrl(String theUrl, ErowidUrl parent) {
         this.parent = parent;
         this.type = Type.UNKNOWN;
@@ -221,11 +233,13 @@ public class ErowidUrl implements Comparable<ErowidUrl> {
         if (invalidUrl(theUrl)) {
 
             this.url = erowidFix(assemble(this.baseUrl, this.path, this.fileName));
+            return;
 
         } else if (theUrl.startsWith("/")) {
 
             this.fileName = theUrl.substring(1);
             this.url = erowidFix(assemble(this.baseUrl, this.path, this.fileName));
+            return;
 
         } else if (containsSlash(theUrl) && theUrl.substring(HTTP_INDEX).contains("/")) {
 

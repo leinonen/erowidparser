@@ -26,7 +26,7 @@ public class ErowidUrlTest {
 		assertEquals(sut.getType(), ErowidUrl.Type.DRUG);
 		assertEquals(sut.getUrl(), "http://www.erowid.org/chemicals/opiates/opiates.shtml");
 		assertEquals(sut.getSimpleName(), "opiates");
-		assertTrue(sut.isValid());
+		assertTrue(sut.isValidErowidUrl());
 	}
 
 	@Test
@@ -40,7 +40,7 @@ public class ErowidUrlTest {
 		assertEquals(sut.getType(), ErowidUrl.Type.BASICS);
 		assertEquals(sut.getUrl(), "mushrooms_basics.shtml");
 		assertEquals(sut.getSimpleName(), "");
-		assertFalse(sut.isValid());
+		assertFalse(sut.isValidErowidUrl());
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class ErowidUrlTest {
 		assertEquals(sut.getType(), ErowidUrl.Type.DRUG);
 		assertEquals(sut.getUrl(), "http://www.erowid.org/plants/mushrooms/mushrooms.shtml");
 		assertEquals(sut.getSimpleName(), "mushrooms");
-		assertTrue(sut.isValid());
+		assertTrue(sut.isValidErowidUrl());
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class ErowidUrlTest {
 		assertEquals(sut.getType(), ErowidUrl.Type.BASICS);
 		assertEquals(sut.getUrl(), "http://www.erowid.org/plants/mushrooms/mushrooms_basics.shtml");
 		assertEquals(sut.getSimpleName(), "mushroomsbasics");
-		assertTrue(sut.isValid());
+		assertTrue(sut.isValidErowidUrl());
 	}
 
 	@Test
@@ -83,7 +83,7 @@ public class ErowidUrlTest {
 		assertEquals(sut.getType(), ErowidUrl.Type.DRUG);
 		assertEquals(sut.getUrl(), CHEM_URL);
 		assertEquals(sut.getSimpleName(), "dmt");
-		assertTrue(sut.isValid());
+		assertTrue(sut.isValidErowidUrl());
 	}
 
 	@Test
@@ -97,7 +97,7 @@ public class ErowidUrlTest {
 		assertEquals(sut.getType(), ErowidUrl.Type.DRUG);
 		assertEquals(sut.getSimpleName(), "mushrooms");
 		assertEquals(sut.getUrl(), DRUG_URL);
-		assertTrue(sut.isValid());
+		assertTrue(sut.isValidErowidUrl());
 	}
 
 	@Test
@@ -110,7 +110,7 @@ public class ErowidUrlTest {
 		assertEquals(sut.getFileName(), EFFECTS_URL);
 		assertEquals(sut.getType(), ErowidUrl.Type.EFFECTS);
 		assertEquals(sut.getUrl(), EFFECTS_URL);
-		assertFalse(sut.isValid());
+		assertFalse(sut.isValidErowidUrl());
 	}
 
 	@Test(enabled = false)
@@ -124,7 +124,7 @@ public class ErowidUrlTest {
 		assertEquals(sut.getFileName(), "mushrooms_basics.shtml");
 		assertEquals(sut.getType(), ErowidUrl.Type.BASICS);
 		assertEquals(sut.getUrl(), "http://www.erowid.org/plants/mushrooms/mushrooms_basics.shtml");
-		assertTrue(sut.isValid());
+		assertTrue(sut.isValidErowidUrl());
 	}
 
 	@Test(enabled = false)
@@ -138,7 +138,7 @@ public class ErowidUrlTest {
 		assertEquals(sut.getType(), ErowidUrl.Type.DRUG);
 		assertEquals(sut.getUrl(), "http://www.erowid.org/chemicals/2ci_nbome/2ci_nbome.shtml");
 		assertEquals(sut.getSimpleName(), "2cinbome");
-		assertTrue(sut.isValid());
+		assertTrue(sut.isValidErowidUrl());
 	}
 
 	@Test
@@ -148,7 +148,7 @@ public class ErowidUrlTest {
 		assertEquals(sut.getUrl(), "http://www.erowid.org/chemicals/nitrous/nitrous.shtml");
 		assertEquals(sut.getType(), ErowidUrl.Type.DRUG);
 		assertEquals(sut.getSimpleName(), "nitrous");
-		assertTrue(sut.isValid());
+		assertTrue(sut.isValidErowidUrl());
 	}
 
 	@Test
@@ -161,7 +161,7 @@ public class ErowidUrlTest {
 		assertEquals(sut.getFileName(), "psychoactives.shtml");
 		assertEquals(sut.getType(), ErowidUrl.Type.UNKNOWN);
 		assertEquals(sut.getUrl(), "http://www.erowid.org/psychoactives/psychoactives.shtml");
-		assertTrue(sut.isValid());
+		assertTrue(sut.isValidErowidUrl());
 	}
 
 	@Test
@@ -174,6 +174,6 @@ public class ErowidUrlTest {
 		assertEquals(sut.getFileName(), "http://www.shroomery.org");
 		assertEquals(sut.getType(), ErowidUrl.Type.UNKNOWN);
 		assertEquals(sut.getUrl(), "http://www.shroomery.org");
-		assertFalse(sut.isValid());
+		assertFalse(sut.isValidErowidUrl());
 	}
 }
